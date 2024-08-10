@@ -1,35 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTasks } from './redux/operations';
+import { getTasks } from './redux/selectors';
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App = () => {
+  const dispatch = useDispatch();
+  // Отримуємо частини стану
+  const { items, isLoading, error } = useSelector(getTasks);
 
+  // Викликаємо операцію
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
+
+  // Рендерим розмітку в залежності від значень у стані
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default App
+    <div>
+      {isLoading && <b>Loading tasks...</b>}
+      {error && <b>{error}</b>}
+      <p>{items.length > 0 && JSON.stringify(items, null, 2)}</p>
+    </div>
+  );
+};
