@@ -9,7 +9,7 @@ export const StatusFilter = () => {
   const dispatch = useDispatch();
   const filter = useSelector(getStatusFilter);
 
-  const handleFilterChange = (filter) => dispatch(setStatusFilter(filter));
+  const handleFilterChange = filter => dispatch(setStatusFilter(filter));
 
   return (
     <div className={css.wrapper}>
