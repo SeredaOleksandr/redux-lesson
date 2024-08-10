@@ -1,17 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchTasks } from './operations';
 
-const tasksInitialState = {
-  items: [],
-  isLoading: false,
-  error: null,
-};
-
 const tasksSlice = createSlice({
   name: 'tasks',
-  initialState: tasksInitialState,
-  // Додаємо обробку зовнішніх екшенів
-  extraReducers: builder => {
+  initialState: {
+    items: [],
+    isLoading: false,
+    error: null,
+  },
+  extraReducers: (builder) => {
     builder
       .addCase(fetchTasks.pending, (state, action) => {
         state.isLoading = true;
